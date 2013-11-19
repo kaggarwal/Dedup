@@ -1,0 +1,12 @@
+SFX
+SVX
+i18n
+GUI
+drawing layer
+basic
+help
+utility
+utilities
+fwk
+framework
+CUI

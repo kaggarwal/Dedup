@@ -1,0 +1,21 @@
+# Project files
+.idea/*
+.sublime*
+*.iml
+
+#java specific
+*.class
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+# Drake files (can remove later if needed)
+*/*/.drake/*
+*/.drake/*
+
+# Bug reports (huge, only need android)
+bug\ reports/

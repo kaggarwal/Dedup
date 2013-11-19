@@ -1,0 +1,8 @@
+PDE
+plugin
+developement
+JDT
+java developement tools
+CDT
+PHP
+web

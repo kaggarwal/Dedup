@@ -1,0 +1,6 @@
+STL
+standard template library
+RTL
+right to left
+OSL
+OS

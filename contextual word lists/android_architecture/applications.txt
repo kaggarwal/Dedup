@@ -1,0 +1,5 @@
+SMS
+Dialer
+browser
+Contact
+phone

@@ -1,0 +1,10 @@
+workbench
+jface
+swt
+runtime
+equinox
+osgi
+registry
+emf
+jvm
+java virtual machine

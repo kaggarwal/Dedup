@@ -1,0 +1,9 @@
+Activity
+Package
+Telephony
+Window
+Content provider
+Location
+View
+Notification
+resource

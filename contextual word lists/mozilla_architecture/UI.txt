@@ -1,0 +1,7 @@
+toolkit
+xpfe
+css
+xbl
+xul
+rdf
+UI

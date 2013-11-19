@@ -1,0 +1,9 @@
+Surface Manager
+Media
+SQLite
+OpenGL
+FreeType
+WebKit
+SGL
+SSL
+libc

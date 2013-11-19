@@ -1,0 +1,14 @@
+Display
+Camera
+Flash Memory
+Binder
+IPC
+Keypad
+WiFi
+Audio
+Power
+graphic
+bluetooth
+GPS
+Radio
+RIL

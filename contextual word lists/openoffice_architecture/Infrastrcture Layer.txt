@@ -1,0 +1,14 @@
+UNO
+UCB
+SBL
+SO
+VOS
+TOOLS
+VCL
+UCB
+Universal content broker
+configure
+config manager
+universal network objects
+GSL
+graphic system layer

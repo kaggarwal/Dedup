@@ -1,0 +1,26 @@
+IDE
+UI
+user interface
+team
+workspace
+document
+doc
+editor
+compare
+search
+resource
+debug
+csv
+cvs
+ltk
+ant
+text
+update
+form
+forms
+outline
+properties
+view
+views
+perspective
+help

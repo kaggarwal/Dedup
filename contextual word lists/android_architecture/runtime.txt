@@ -1,0 +1,4 @@
+Core
+Dalvik
+Virtual Machine
+VM
