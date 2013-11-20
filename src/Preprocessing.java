@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
@@ -279,6 +280,31 @@ public class Preprocessing {
 		}
 		return result;
 	}
+
+    /**
+     * Returns a sublist of the input containing ALL "duplicate"
+     * Documents from the input and the needed quantity of "non-duplictes"
+     * to make the sublist contain dupRatio "duplicates"
+     * Documents
+     **/
+    public Vector<Document> getDistributedSubset(Vector<Document> input, double dupRatio) {
+
+        Vector<Document> nonDups = new Vector<Document>();
+        Vector<Document> result = new Vector<Document>();
+
+        for (Document doc : input) {
+            (doc.getStatus().equalsIgnoreCase("duplicate") ? result : nonDups).add(doc);
+        }
+
+        int remaining = (int)Math.round(((1-dupRatio)/dupRatio)*result.size());
+        Random rand = new Random();
+
+        for (int i = 0; i < remaining; i++) {
+            result.add(nonDups.get(rand.nextInt(nonDups.size())));
+        }
+
+        return result;
+    }
 
 
 	public static void main(String[] args) {

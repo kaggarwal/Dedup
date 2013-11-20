@@ -26,11 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -59,36 +55,39 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void createBMFandCategoryTable(String outputFileName){
+	public void createBMFandCategoryTable(String outputFileName, double dupRatio){
 		
 		
-		HashSet<Integer> dup_ids = new HashSet<Integer>();
+//		HashSet<Integer> dup_ids = new HashSet<Integer>();
 		Vector<Integer> forbidden = new Vector<Integer>(Arrays.asList(36886,36469,36468,36185,33997,33988,25384,25158,24818,24655,24534,24373,24076,23694,23591,22984,22589,22495,22477,22418,22325,22239,22154,21757,21754,21753,21752,21741,21740,21733,21722,21682,21602,21574,21485,21454,21453,21285,21207,21198,21175,21128,21127,21068,21067,20852,20839,20750,20664,20644,20593,20565,20554,20477,20466,20445,20384,20301,20290,20262,20136,20135,20123,19957,19953,19945,19944,19840,19830,19654,19653,19624,19623,19619,19583,19456,19445,19416,19415,19134,19082,19006,18984,18808,18774,18768,18759,18754,18735,18729,18708,18675,18657,18590,18588,18584,18524,18466,18398,18368,18339,18328,18307,18254,18190,18175,18109,18108,18044,18021,17770,17542,17464,17171,17079,17069,17062,16842,16488,16468,16393,16282,16236,16204,16000,14919,14856,14654,14414,13411,13395,13132,13067,13056,12596,12362,12160,12006,11921,11661,11658,11517,11495,11398,11358,11129,11055,10990,10801,10785,10768,10692,10309,10308,9977,9868,9861,9467,9425,9277,9276,9224,9132,9050,8871,8722,8474,8381,8335,8073,8070,8062,7504,7290,6250,6114,5997,5969,5968,5967,5934,5928,5922,5916,5888,5640,5619,5599));
-
-		try{
-			FileInputStream fstream = new FileInputStream("android_dup_ids.csv");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-			while ((strLine = br.readLine()) != null)   {
-				dup_ids.add(Integer.parseInt(strLine));
-			}
-			in.close();
-		}catch (Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-		}
+//
+//		try{
+//			FileInputStream fstream = new FileInputStream("android_dup_ids.csv");
+//			DataInputStream in = new DataInputStream(fstream);
+//			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//			String strLine;
+//			while ((strLine = br.readLine()) != null)   {
+//				dup_ids.add(Integer.parseInt(strLine));
+//			}
+//			in.close();
+//		}catch (Exception e){//Catch exception if any
+//			System.err.println("Error: " + e.getMessage());
+//		}
 
 		try{
 			// Create file 
 			FileWriter fstream = new FileWriter(outputFileName);
 			BufferedWriter out = new BufferedWriter(fstream);
-			Document doc1 = new Document("", "");
+            out.append("Bug 1,Bug 2,bmfu,bmfb,prod,comp,type,prior,vers,class\n");
+            Document doc1 = new Document("", "");
 			Document doc2 = new Document("", "");
 			StringBuffer line = new StringBuffer("");
+            Vector<Integer> dupIDs = new Vector<Integer>();
 			String separator = ",";
 			double[] features = {};
+            int dupCount = 0;
 
-			for(int i=(corpus.getDocuments().size()/3);i<corpus.getDocuments().size();i++){
+			for(int i=0;i<corpus.getDocuments().size()-1;i++){
 
 				for(int j=i+1;j<corpus.getDocuments().size();j++){
 
@@ -101,10 +100,11 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 					
 					if(!isDuplicate(doc1,doc2))
 						continue;
-					
+
 					/*if(!dup_ids.contains(doc1.getBugID()) && !dup_ids.contains(doc2.getBugID()))
 						continue;*/
-					
+
+
 					
 					features = rep.getFeatures(doc1, doc2, freeVariables);
 					
@@ -114,10 +114,44 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 					for(int index=0;index<features.length;index++){
 						line.append( ((double)(Math.round(features[index] * 10000)) / 10000) + separator);
 					}
-					line.append((isDuplicate(doc1, doc2)?"dup":"non")+"\n");
+					line.append("dup"+"\n");
 					out.append(line);
+                    dupCount++;
 				}
 			}
+
+            Random rand = new Random();
+            int totalCount = dupCount;
+
+            while (totalCount < dupCount/dupRatio) {
+
+                line = new StringBuffer();
+                int index = rand.nextInt(corpus.getDocuments().size()-1);
+                doc1 = corpus.getDocuments().get(index);
+                doc2 = corpus.getDocuments().get(index+1);
+
+                if(forbidden.contains(doc1.getBugID()) || forbidden.contains(doc2.getBugID()))
+                    continue;
+
+                if(isDuplicate(doc1,doc2))
+                    continue;
+
+					/*if(!dup_ids.contains(doc1.getBugID()) && !dup_ids.contains(doc2.getBugID()))
+						continue;*/
+
+                features = rep.getFeatures(doc1, doc2, freeVariables);
+
+                line.append(doc1.getBugID()+separator);
+                line.append(doc2.getBugID()+separator);
+
+                for(int i=0;i<features.length;i++){
+                    line.append( ((double)(Math.round(features[i] * 10000)) / 10000) + separator);
+                }
+                line.append("non"+"\n");
+					out.append(line);
+                totalCount++;
+            }
+
 			//Close the output stream
 			out.close();
 		}catch (Exception e){//Catch exception if any
@@ -247,8 +281,6 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 
 			for(int i=0;i<bmf_title.length-1;i++)
 				out.append(bmf_title[i]+",");
-			
-			out.append(bmf_title[bmf_title.length-1]);
 
 			for(int i=1;i<contextTitle.length;i++)
 				out.append(contextTitle[i]+"1,");
@@ -339,7 +371,7 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 
 		Preprocessing prep = new Preprocessing();
 		AndroidXmlParser AXP = new AndroidXmlParser();
-		Corpus corpus = new Corpus(prep.process(AXP.getBugs(), false));
+//		Corpus corpus = new Corpus(prep.process(AXP.getBugs(), false));
 		
 		/*System.out.println("shoru");
 		for(int i=0;i<corpus.getDocuments().size();i++){
@@ -350,24 +382,30 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 		}*/
 		
 		
-		MachineLearnerTableGenerator mltg = new MachineLearnerTableGenerator(false, freeVariables, corpus);
+//		MachineLearnerTableGenerator mltg = new MachineLearnerTableGenerator(false, freeVariables, corpus);
 		//mltg.createBMFandCategoryTable("filtered_dups.csv");
 		//mltg.createContextTable("mozilla_architecture", "mozilla_architecture_context.csv");
 		//mltg.createContextTable("NFR3", "mozilla_NFR_context.csv");
 		//mltg.createContextTable("top100JunkWords", "mozilla_junk_context.csv");
 		//mltg.createContextTable("openoffice_lda_topics", "openoffice_lda_context.csv");
-        mltg.createContextTable("domainWords", "domain_context_features.csv", "crypto,general,java,networking");
-        mltg.createContextTable("AndroidLabeledTopicsContext", "labeled_lda_features.csv", "3G,alarm,android_market,app,audio,battery,bluethooth,bluetooth,browser,calculator,calendar," +
-                "calling,camera,car,compass,contact,CPU,date,dialing,display,download,email,facebook,flash,font,google_earth," +
-                "google_latitude,google_map,google_navigation,google_translate,google_voice,GPS,gtalk,image,input,IPV6,keyboard," +
-                "language,location,lock,memory,message,network,notification,picassa,proxy,radio,region,ringtone,rSAP,screen_shot," +
-                "SD_card,search,setting,signal,SIM_card,synchronize,system,time,touchscreen,twitter,UI,upgrade,USB,video,voice_call," +
-                "voice_recognition,voicedialing,voicemail,VPN,wifi,youtube");
+//        mltg.createContextTable("domainWords", "domain_context_features.csv", "crypto,general,java,networking");
+//        mltg.createContextTable("AndroidLabeledTopicsContext", "labeled_lda_features.csv", "3G,alarm,android_market,app,audio,battery,bluethooth,bluetooth,browser,calculator,calendar," +
+//                "calling,camera,car,compass,contact,CPU,date,dialing,display,download,email,facebook,flash,font,google_earth," +
+//                "google_latitude,google_map,google_navigation,google_translate,google_voice,GPS,gtalk,image,input,IPV6,keyboard," +
+//                "language,location,lock,memory,message,network,notification,picassa,proxy,radio,region,ringtone,rSAP,screen_shot," +
+//                "SD_card,search,setting,signal,SIM_card,synchronize,system,time,touchscreen,twitter,UI,upgrade,USB,video,voice_call," +
+//                "voice_recognition,voicedialing,voicemail,VPN,wifi,youtube");
 		
 		//mltg.createJoinTable("random_filtered.csv", "android_labeled_context.csv", "android_labeled_filtered.csv");
 		//mltg.createJoinTable("dataset.csv", "android_junk_context.csv", "android_junk_bmf_category.csv");
 		//mltg.createJoinTable("dataset.csv", "android_lda_context.csv", "android_lda_bmf_category.csv");
 		//mltg.createJoinTable("dataset.csv", "android_nfr_context.csv", "android_nfr_bmf_category.csv");
 		//mltg.createJoinTable("dataset.csv", "android_labeled_context.csv", "android_labeled_bmf_category.csv");
-	}
+
+        Corpus corpus = new Corpus(prep.process(AXP.getBugs(), false));
+        MachineLearnerTableGenerator mltg = new MachineLearnerTableGenerator(false, freeVariables, corpus);
+
+        //mltg.createBMFandCategoryTable("features/textualCategorical.csv", 0.2);
+        mltg.createJoinTable("features/textualCategorical.csv", "features/domain_context_features.csv", "features/all_features_domain_context.csv");
+    }
 }
