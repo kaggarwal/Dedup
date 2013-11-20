@@ -59,7 +59,7 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 		
 		
 //		HashSet<Integer> dup_ids = new HashSet<Integer>();
-		Vector<Integer> forbidden = new Vector<Integer>(Arrays.asList(36886,36469,36468,36185,33997,33988,25384,25158,24818,24655,24534,24373,24076,23694,23591,22984,22589,22495,22477,22418,22325,22239,22154,21757,21754,21753,21752,21741,21740,21733,21722,21682,21602,21574,21485,21454,21453,21285,21207,21198,21175,21128,21127,21068,21067,20852,20839,20750,20664,20644,20593,20565,20554,20477,20466,20445,20384,20301,20290,20262,20136,20135,20123,19957,19953,19945,19944,19840,19830,19654,19653,19624,19623,19619,19583,19456,19445,19416,19415,19134,19082,19006,18984,18808,18774,18768,18759,18754,18735,18729,18708,18675,18657,18590,18588,18584,18524,18466,18398,18368,18339,18328,18307,18254,18190,18175,18109,18108,18044,18021,17770,17542,17464,17171,17079,17069,17062,16842,16488,16468,16393,16282,16236,16204,16000,14919,14856,14654,14414,13411,13395,13132,13067,13056,12596,12362,12160,12006,11921,11661,11658,11517,11495,11398,11358,11129,11055,10990,10801,10785,10768,10692,10309,10308,9977,9868,9861,9467,9425,9277,9276,9224,9132,9050,8871,8722,8474,8381,8335,8073,8070,8062,7504,7290,6250,6114,5997,5969,5968,5967,5934,5928,5922,5916,5888,5640,5619,5599));
+		//Vector<Integer> forbidden = new Vector<Integer>(Arrays.asList(36886,36469,36468,36185,33997,33988,25384,25158,24818,24655,24534,24373,24076,23694,23591,22984,22589,22495,22477,22418,22325,22239,22154,21757,21754,21753,21752,21741,21740,21733,21722,21682,21602,21574,21485,21454,21453,21285,21207,21198,21175,21128,21127,21068,21067,20852,20839,20750,20664,20644,20593,20565,20554,20477,20466,20445,20384,20301,20290,20262,20136,20135,20123,19957,19953,19945,19944,19840,19830,19654,19653,19624,19623,19619,19583,19456,19445,19416,19415,19134,19082,19006,18984,18808,18774,18768,18759,18754,18735,18729,18708,18675,18657,18590,18588,18584,18524,18466,18398,18368,18339,18328,18307,18254,18190,18175,18109,18108,18044,18021,17770,17542,17464,17171,17079,17069,17062,16842,16488,16468,16393,16282,16236,16204,16000,14919,14856,14654,14414,13411,13395,13132,13067,13056,12596,12362,12160,12006,11921,11661,11658,11517,11495,11398,11358,11129,11055,10990,10801,10785,10768,10692,10309,10308,9977,9868,9861,9467,9425,9277,9276,9224,9132,9050,8871,8722,8474,8381,8335,8073,8070,8062,7504,7290,6250,6114,5997,5969,5968,5967,5934,5928,5922,5916,5888,5640,5619,5599));
 //
 //		try{
 //			FileInputStream fstream = new FileInputStream("android_dup_ids.csv");
@@ -95,8 +95,8 @@ public class MachineLearnerTableGenerator extends TableGenerator {
 					doc1 = corpus.getDocuments().get(i);
 					doc2 = corpus.getDocuments().get(j);
 					
-					if(forbidden.contains(doc1.getBugID()) || forbidden.contains(doc2.getBugID()))
-						continue;
+//					if(forbidden.contains(doc1.getBugID()) || forbidden.contains(doc2.getBugID()))
+//						continue;
 					
 					if(!isDuplicate(doc1,doc2))
 						continue;
@@ -130,8 +130,8 @@ public class MachineLearnerTableGenerator extends TableGenerator {
                 doc1 = corpus.getDocuments().get(index);
                 doc2 = corpus.getDocuments().get(index+1);
 
-                if(forbidden.contains(doc1.getBugID()) || forbidden.contains(doc2.getBugID()))
-                    continue;
+//                if(forbidden.contains(doc1.getBugID()) || forbidden.contains(doc2.getBugID()))
+//                    continue;
 
                 if(isDuplicate(doc1,doc2))
                     continue;
@@ -405,7 +405,7 @@ public class MachineLearnerTableGenerator extends TableGenerator {
         Corpus corpus = new Corpus(prep.process(AXP.getBugs(), false));
         MachineLearnerTableGenerator mltg = new MachineLearnerTableGenerator(false, freeVariables, corpus);
 
-        //mltg.createBMFandCategoryTable("features/textualCategorical.csv", 0.2);
-        mltg.createJoinTable("features/textualCategorical.csv", "features/domain_context_features.csv", "features/all_features_domain_context.csv");
+        mltg.createBMFandCategoryTable("features/textualCategorical_2.csv", 0.2);
+        mltg.createJoinTable("features/textualCategorical_2.csv", "features/domain_context_features.csv", "features/all_features_domain_context_2.csv");
     }
 }
