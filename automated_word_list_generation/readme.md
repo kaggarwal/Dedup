@@ -1,5 +1,8 @@
 # Word Frequency Generator
 
+The current directory contains the code necessary to generate the lists of
+unique words as described in the methodology section of our paper. 
+
 ## Example
 Say we have a file, "example.txt," containing the following text: 
 
@@ -7,25 +10,29 @@ Say we have a file, "example.txt," containing the following text:
 
 To get a list of the unique words for this file, run the following command:
 
-    % ./getWordLists.py example.txt
+    % ./generate_word_lists example.txt
     
 This will save the following output to the file "word-frequency-example.json":
 
     easy
 
-## What does the script do?  
-The script takes a text file ("filename.txt") as input, and gets a list of every unique word in it. Then, the script removes all the stop words, and saves the list to a file.  
+## What does the script do?
+
+The script takes a text file ("filename.txt") as input, and gets a list of every
+unique word in it. Then, the script removes all the stop words, and saves the
+list to a file.  
 
 ## General Requirements
 * Python 2.7
 * [NLTK](http://nltk.org/)
 
 ### Known issues
-You need to already have the text files. This can easily be done with the [pdf2txt.py](https://github.com/euske/pdfminer/) utility. 
 
-### How can I replicate the wordlists? 
+None.
 
-Install the fantastic tool "[Drake](https://github.com/Factual/drake/)" and run "Drake" in the wordLists directory. 
+### How can I replicate the word lists? 
+
+Run `make all` in the `word_lists` directory.
 
 ### Sources: 
 
@@ -33,12 +40,12 @@ Install the fantastic tool "[Drake](https://github.com/Factual/drake/)" and run 
 
 * Networking - "Unix Network Programming - Stevens"
 
-* Effective Java - 
-
+* Effective Java - ???
 
 * Patterns - "Patterns of Enterprise Application Architecture, Fowler, Rice, Foemmel"
 
-* Design Patterns - 
+* Design Patterns - ???
 
+* Pragmatic - ???
 
-* Pragmatic - 
+* Stop words - ??? 
