@@ -1,8 +1,0 @@
-voicedialing
-voice
-search
-magic
-version
-google
-screen
-q"emessage
