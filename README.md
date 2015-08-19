@@ -1,4 +1,19 @@
-Code that applies machine learning concepts to improve bug deduplication accuracy in bug repositories.
+# Introduction
+
+This repo contains the code for our series of [papers](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125) on bug report deduplication. DeDup is a project that applies machine learning concepts to improve bug report deduplication performance in bug repositories.
+
+## Installation & Usage
+
+Coming soon... 
+
+## Project layout
+
+
+
+The `word_lists` directory contains ten subdirectories containing the wordlists
+used in our project. The names are self explanatory. 
+
+## Licensing/Copyright
 
 Copyright (C) 2013 Anahita Alipour, Abram Hindle, Tanner Rutgers, Riley Dawson, Finbarr Timbers, Karan Aggarwal
 
